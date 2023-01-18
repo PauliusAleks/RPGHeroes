@@ -8,6 +8,9 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace RPGHeroesTests
 {
+    /// <summary>
+    /// All required tests to test ranger class.
+    /// </summary>
     public class RangerTests : IHeroSubClassesTest
     {
         [Fact]
@@ -31,7 +34,7 @@ namespace RPGHeroesTests
         {
             Ranger ranger = new Ranger("testRanger");
             int expectedStrength = 1;
-            int actualStrength = ranger.HeroAttribute.Strength;                                     
+            int actualStrength = ranger.LevelAttributes.Strength;
             Assert.Equal(expectedStrength, actualStrength);
         }
         [Fact]
@@ -39,7 +42,7 @@ namespace RPGHeroesTests
         {
             Ranger ranger = new Ranger("testRanger");
             int expectedDexterity = 7;
-            int actualDexterity = ranger.HeroAttribute.Dexterity;
+            int actualDexterity = ranger.LevelAttributes.Dexterity;
             Assert.Equal(expectedDexterity, actualDexterity);
         }
         [Fact]
@@ -47,7 +50,7 @@ namespace RPGHeroesTests
         {
             Ranger ranger = new Ranger("testRanger");
             int expectedIntelligence = 1;
-            int actualIntelligence = ranger.HeroAttribute.Intelligence;
+            int actualIntelligence = ranger.LevelAttributes.Intelligence;
             Assert.Equal(expectedIntelligence, actualIntelligence);
         }
         [Fact]
@@ -65,7 +68,7 @@ namespace RPGHeroesTests
             Ranger ranger = new Ranger("testRanger");
             ranger.LevelUp();
             int expectedStrength = 2;
-            int actualStrength = ranger.HeroAttribute.Strength;
+            int actualStrength = ranger.LevelAttributes.Strength;
             Assert.Equal(expectedStrength, actualStrength);
         }
         [Fact]
@@ -74,7 +77,7 @@ namespace RPGHeroesTests
             Ranger ranger = new Ranger("testRanger");
             ranger.LevelUp();
             int expectedDexterity = 12;
-            int actualDexterity = ranger.HeroAttribute.Dexterity;
+            int actualDexterity = ranger.LevelAttributes.Dexterity;
             Assert.Equal(expectedDexterity, actualDexterity);
         }
         [Fact]
@@ -83,26 +86,24 @@ namespace RPGHeroesTests
             Ranger ranger = new Ranger("testRanger");
             ranger.LevelUp();
             int expectedIntelligence = 2;
-            int actualIntelligence = ranger.HeroAttribute.Intelligence;
+            int actualIntelligence = ranger.LevelAttributes.Intelligence;
             Assert.Equal(expectedIntelligence, actualIntelligence);
         }
 
         [Theory]
-        [InlineData(WeaponType.Bow,5)] //Throw Exception when less than required level
-        [InlineData(WeaponType.Sword,1)] //Throw Exception when invalid weapon type
-        public void CheckIfInvalidWeaponExceptionIsThrown(WeaponType weaponType,int requiredLevel)
+        [InlineData(WeaponType.Bow, 5)] //Throw Exception when less than required level
+        [InlineData(WeaponType.Sword, 1)] //Throw Exception when invalid weapon type
+        public void CheckIfInvalidWeaponExceptionIsThrown(WeaponType weaponType, int requiredLevel)
         {
             Ranger ranger = new Ranger("testRanger");
             Weapon weapon = new Weapon("Weapon", requiredLevel, weaponType, 6);
             Assert.Throws<InvalidWeaponException>(() => ranger.EquipWeapon(weapon));
         }
-
-
         [Fact]
         public void CheckIfWeaponCanBeEquiped()
         {
             Ranger ranger = new Ranger("testRanger");
-            List<WeaponType> expectedValidWeaponTypes= new List<WeaponType>() { WeaponType.Bow};
+            List<WeaponType> expectedValidWeaponTypes = new List<WeaponType>() { WeaponType.Bow };
             List<WeaponType> actualValidWeaponTypes = ranger.ValidWeaponTypes;
             Assert.Equal(expectedValidWeaponTypes, actualValidWeaponTypes);
         }
@@ -119,8 +120,7 @@ namespace RPGHeroesTests
         public void CHeckIfArmorCanBeEquiped()
         {
             Ranger ranger = new Ranger("testRanger");
-
-            List<ArmorType> ExpectedValidArmorTypes = new List<ArmorType>() { ArmorType.Leather,ArmorType.Mail };
+            List<ArmorType> ExpectedValidArmorTypes = new List<ArmorType>() { ArmorType.Leather, ArmorType.Mail };
             List<ArmorType> ActualValidArmorTypes = ranger.ValidArmorTypes;
             Assert.Equal(ExpectedValidArmorTypes, ActualValidArmorTypes);
         }
@@ -128,7 +128,6 @@ namespace RPGHeroesTests
         public void CheckHero_TotalAttributes_NoArmor()
         {
             Ranger ranger = new Ranger("testRanger");
-
             HeroAttributes expectedAttributes = new HeroAttributes(1, 7, 1);
             HeroAttributes actualAttributes = ranger.TotalAttributes();
             Assert.Equal(expectedAttributes.ToString(), actualAttributes.ToString());
@@ -137,7 +136,6 @@ namespace RPGHeroesTests
         public void CheckHero_TotalAttributes_OnePieceArmor()
         {
             Ranger ranger = new Ranger("testRanger");
-
             Armor headArmor = new Armor("headArmor", 1, Slot.Head, ArmorType.Mail, new HeroAttributes(1, 1, 1));
             ranger.EquipArmor(headArmor);
             HeroAttributes expectedAttributes = new HeroAttributes(2, 8, 2);
@@ -148,7 +146,6 @@ namespace RPGHeroesTests
         public void CheckHero_TotalAttributes_TwoPieceArmor()
         {
             Ranger ranger = new Ranger("testRanger");
-
             Armor headArmor = new Armor("headArmor", 1, Slot.Head, ArmorType.Mail, new HeroAttributes(1, 1, 1));
             Armor bodyArmor = new Armor("bodyArmor", 1, Slot.Body, ArmorType.Mail, new HeroAttributes(1, 1, 1));
             ranger.EquipArmor(headArmor);
@@ -157,12 +154,10 @@ namespace RPGHeroesTests
             HeroAttributes actualAttributes = ranger.TotalAttributes();
             Assert.Equal(expectedAttributes.ToString(), actualAttributes.ToString());
         }
-
         [Fact]
         public void CheckHero_TotalAttributes_ReplacedPieceArmor()
         {
             Ranger ranger = new Ranger("testRanger");
-
             Armor headArmor1 = new Armor("headArmor1", 1, Slot.Head, ArmorType.Mail, new HeroAttributes(1, 1, 1));
             Armor headArmor2 = new Armor("headArmor2", 1, Slot.Head, ArmorType.Mail, new HeroAttributes(3, 3, 3));
             ranger.EquipArmor(headArmor1);
@@ -175,17 +170,14 @@ namespace RPGHeroesTests
         public void CheckHero_Damage_NoWeapon()
         {
             Ranger ranger = new Ranger("testRanger");
-
             double expectedDamage = 1 * (1 + 7 / 100.0);
             double actualDamage = ranger.Damage();
             Assert.Equal(expectedDamage, actualDamage);
         }
-
         [Fact]
         public void CheckHero_Damage_WithWeapon()
         {
             Ranger ranger = new Ranger("testRanger");
-
             Weapon weapon = new Weapon("Weapon", 1, WeaponType.Bow, 11);
             ranger.EquipWeapon(weapon);
             double expectedDamage = 11 * (1 + 7 / 100.0);
@@ -196,7 +188,6 @@ namespace RPGHeroesTests
         public void CheckHero_Damage_ReplacedWeapon()
         {
             Ranger ranger = new Ranger("testRanger");
-
             Weapon weapon = new Weapon("Weapon", 1, WeaponType.Bow, 11);
             ranger.EquipWeapon(weapon);
             Weapon weapon1 = new Weapon("Weapon1", 1, WeaponType.Bow, 15);
@@ -209,7 +200,6 @@ namespace RPGHeroesTests
         public void CheckHero_Damage_WeaponAndThreePiecesOfArmor()
         {
             Ranger ranger = new Ranger("testRanger");
-
             Weapon weapon = new Weapon("Weapon", 1, WeaponType.Bow, 11);
             Armor headArmor = new Armor("headArmor", 1, Slot.Head, ArmorType.Mail, new HeroAttributes(1, 1, 1));
             Armor bodyArmor = new Armor("bodyArmor", 1, Slot.Body, ArmorType.Mail, new HeroAttributes(2, 2, 2));
@@ -227,8 +217,6 @@ namespace RPGHeroesTests
         public void CheckHero_Display()
         {
             Ranger ranger = new Ranger("testRanger");
-
-
             StringBuilder expectedString = new StringBuilder();
             expectedString.AppendLine("###################### Hero Description ######################");
             expectedString.AppendLine($"Name: testRanger");
@@ -240,7 +228,5 @@ namespace RPGHeroesTests
             expectedString.AppendLine($"Damage: {1 * (1 + 7 / 100.0)}");
             Assert.Equal(expectedString.ToString(), ranger.Display());
         }
-
-
     }
 }

@@ -6,25 +6,28 @@ using System.Threading.Tasks;
 
 namespace RPGHeroes.Items
 {
-    public class Item
+    /// <summary>
+    /// Parent abstract class.
+    /// Two constructors, since not every item type requires a slot when it is created.
+    /// </summary>
+    public abstract class Item
     {
         public string Name { get; set; }
         public ItemType ItemType { get; set; }
         public int RequiredLevel { get; set; }
         public Slot Slot { get; set; }
-
         public Item(String name, ItemType itemType, int requiredLevel)
         {
             Name = name;
             ItemType = itemType;
             RequiredLevel = requiredLevel;
         }
-        public Item(String name, ItemType itemType, int requiredLevel, Slot slot) 
+        public Item(String name, ItemType itemType, int requiredLevel, Slot slot)
         {
             Name = name;
-            ItemType= itemType;
-            RequiredLevel= requiredLevel;
-            Slot= slot;
+            ItemType = itemType;
+            RequiredLevel = requiredLevel;
+            Slot = slot;
         }
     }
 }

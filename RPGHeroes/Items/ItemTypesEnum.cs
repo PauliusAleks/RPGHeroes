@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace RPGHeroes.Items
 {
+    /// <summary>
+    /// Available item types.
+    /// </summary>
     public enum ItemType
     {
         Weapon,
         Armor
     }
-
 }

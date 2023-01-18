@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace RPGHeroes.Exceptions
 {
+    // <summary>
+    /// Custom exception that allows setting a custom exception message.
+    /// </summary>
     public class InvalidWeaponException : Exception
     {
         public InvalidWeaponException(String message) : base(message) { }
-        
     }
 }

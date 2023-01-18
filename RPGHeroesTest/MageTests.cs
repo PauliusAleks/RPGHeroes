@@ -10,7 +10,9 @@ using System.Xml.Linq;
 
 namespace RPGHeroesTests
 {
-    
+    /// <summary>
+    /// All required tests to test mage class.
+    /// </summary>
     public class MageTests : IHeroSubClassesTest
     {
         [Fact]
@@ -36,7 +38,7 @@ namespace RPGHeroesTests
         {
             Mage mage = new Mage("testMage");
             int expectedStrength = 1;
-            int actualStrength = mage.HeroAttribute.Strength;                                     
+            int actualStrength = mage.LevelAttributes.Strength;
             Assert.Equal(expectedStrength, actualStrength);
         }
         [Fact]
@@ -44,7 +46,7 @@ namespace RPGHeroesTests
         {
             Mage mage = new Mage("testMage");
             int expectedDexterity = 1;
-            int actualDexterity = mage.HeroAttribute.Dexterity;
+            int actualDexterity = mage.LevelAttributes.Dexterity;
             Assert.Equal(expectedDexterity, actualDexterity);
         }
         [Fact]
@@ -52,7 +54,7 @@ namespace RPGHeroesTests
         {
             Mage mage = new Mage("testMage");
             int expectedIntelligence = 8;
-            int actualIntelligence = mage.HeroAttribute.Intelligence;
+            int actualIntelligence = mage.LevelAttributes.Intelligence;
             Assert.Equal(expectedIntelligence, actualIntelligence);
         }
         [Fact]
@@ -70,7 +72,7 @@ namespace RPGHeroesTests
             Mage mage = new Mage("testMage");
             mage.LevelUp();
             int expectedStrength = 2;
-            int actualStrength = mage.HeroAttribute.Strength;
+            int actualStrength = mage.LevelAttributes.Strength;
             Assert.Equal(expectedStrength, actualStrength);
         }
         [Fact]
@@ -79,7 +81,7 @@ namespace RPGHeroesTests
             Mage mage = new Mage("testMage");
             mage.LevelUp();
             int expectedDexterity = 2;
-            int actualDexterity = mage.HeroAttribute.Dexterity;
+            int actualDexterity = mage.LevelAttributes.Dexterity;
             Assert.Equal(expectedDexterity, actualDexterity);
         }
         [Fact]
@@ -88,7 +90,7 @@ namespace RPGHeroesTests
             Mage mage = new Mage("testMage");
             mage.LevelUp();
             int expectedIntelligence = 13;
-            int actualIntelligence = mage.HeroAttribute.Intelligence;
+            int actualIntelligence = mage.LevelAttributes.Intelligence;
             Assert.Equal(expectedIntelligence, actualIntelligence);
         }
         [Theory]
@@ -104,34 +106,32 @@ namespace RPGHeroesTests
         public void CheckIfWeaponCanBeEquiped()
         {
             Mage mage = new Mage("testMage");
-            List<WeaponType> expectedValidWeaponTypes = new List<WeaponType>() { WeaponType.Staff, WeaponType.Wand};
+            List<WeaponType> expectedValidWeaponTypes = new List<WeaponType>() { WeaponType.Staff, WeaponType.Wand };
             List<WeaponType> actualValidWeaponTypes = mage.ValidWeaponTypes;
             Assert.Equal(expectedValidWeaponTypes, actualValidWeaponTypes);
         }
         [Theory]
         [InlineData(ArmorType.Cloth, 5)] //Throw Exception when less than required level
         [InlineData(ArmorType.Mail, 1)] //Throw Exception when invalid armor type
-        public void CheckIfInvalidArmorExceptionIsThrown(ArmorType armorType,int requiredLevel)
+        public void CheckIfInvalidArmorExceptionIsThrown(ArmorType armorType, int requiredLevel)
         {
             Mage mage = new Mage("testMage");
-            Armor armor = new Armor("Armor", requiredLevel,Slot.Body, armorType,new HeroAttributes(1,1,1));
+            Armor armor = new Armor("Armor", requiredLevel, Slot.Body, armorType, new HeroAttributes(1, 1, 1));
             Assert.Throws<InvalidArmorException>(() => mage.EquipArmor(armor));
         }
         [Fact]
         public void CHeckIfArmorCanBeEquiped()
         {
             Mage mage = new Mage("testMage");
-            List<ArmorType> ExpectedValidArmorTypes = new List<ArmorType>() {ArmorType.Cloth};
+            List<ArmorType> ExpectedValidArmorTypes = new List<ArmorType>() { ArmorType.Cloth };
             List<ArmorType> ActualValidArmorTypes = mage.ValidArmorTypes;
-            Assert.Equal(ExpectedValidArmorTypes,ActualValidArmorTypes);
-
+            Assert.Equal(ExpectedValidArmorTypes, ActualValidArmorTypes);
         }
-
         [Fact]
         public void CheckHero_TotalAttributes_NoArmor()
         {
             Mage mage = new Mage("testMage");
-            HeroAttributes expectedAttributes = new HeroAttributes(1,1,8);
+            HeroAttributes expectedAttributes = new HeroAttributes(1, 1, 8);
             HeroAttributes actualAttributes = mage.TotalAttributes();
             Assert.Equal(expectedAttributes.ToString(), actualAttributes.ToString());
         }
@@ -157,7 +157,6 @@ namespace RPGHeroesTests
             HeroAttributes actualAttributes = mage.TotalAttributes();
             Assert.Equal(expectedAttributes.ToString(), actualAttributes.ToString());
         }
-        
         [Fact]
         public void CheckHero_TotalAttributes_ReplacedPieceArmor()
         {
@@ -174,11 +173,10 @@ namespace RPGHeroesTests
         public void CheckHero_Damage_NoWeapon()
         {
             Mage mage = new Mage("testMage");
-            double expectedDamage = 1*(1+8 / 100.0);
+            double expectedDamage = 1 * (1 + 8 / 100.0);
             double actualDamage = mage.Damage();
             Assert.Equal(expectedDamage, actualDamage);
         }
-        
         [Fact]
         public void CheckHero_Damage_WithWeapon()
         {
@@ -222,7 +220,6 @@ namespace RPGHeroesTests
         public void CheckHero_Display()
         {
             Mage mage = new Mage("testMage");
-
             StringBuilder expectedString = new StringBuilder();
             expectedString.AppendLine("###################### Hero Description ######################");
             expectedString.AppendLine($"Name: testMage");
@@ -234,7 +231,5 @@ namespace RPGHeroesTests
             expectedString.AppendLine($"Damage: {1 * (1 + 8 / 100.0)}");
             Assert.Equal(expectedString.ToString(), mage.Display());
         }
-        
-
     }
 }

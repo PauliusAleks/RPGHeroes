@@ -8,6 +8,9 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace RPGHeroesTests
 {
+    /// <summary>
+    /// All required tests to test warrior class.
+    /// </summary>
     public class WarriorTests : IHeroSubClassesTest
     {
         [Fact]
@@ -31,7 +34,7 @@ namespace RPGHeroesTests
         {
             Warrior warrior = new Warrior("testWarrior");
             int expectedStrength = 5;
-            int actualStrength = warrior.HeroAttribute.Strength;                                     
+            int actualStrength = warrior.LevelAttributes.Strength;
             Assert.Equal(expectedStrength, actualStrength);
         }
         [Fact]
@@ -39,7 +42,7 @@ namespace RPGHeroesTests
         {
             Warrior warrior = new Warrior("testWarrior");
             int expectedDexterity = 2;
-            int actualDexterity = warrior.HeroAttribute.Dexterity;
+            int actualDexterity = warrior.LevelAttributes.Dexterity;
             Assert.Equal(expectedDexterity, actualDexterity);
         }
         [Fact]
@@ -47,7 +50,7 @@ namespace RPGHeroesTests
         {
             Warrior warrior = new Warrior("testWarrior");
             int expectedIntelligence = 1;
-            int actualIntelligence = warrior.HeroAttribute.Intelligence;
+            int actualIntelligence = warrior.LevelAttributes.Intelligence;
             Assert.Equal(expectedIntelligence, actualIntelligence);
         }
         [Fact]
@@ -65,7 +68,7 @@ namespace RPGHeroesTests
             Warrior warrior = new Warrior("testWarrior");
             warrior.LevelUp();
             int expectedStrength = 8;
-            int actualStrength = warrior.HeroAttribute.Strength;
+            int actualStrength = warrior.LevelAttributes.Strength;
             Assert.Equal(expectedStrength, actualStrength);
         }
         [Fact]
@@ -74,7 +77,7 @@ namespace RPGHeroesTests
             Warrior warrior = new Warrior("testWarrior");
             warrior.LevelUp();
             int expectedDexterity = 4;
-            int actualDexterity = warrior.HeroAttribute.Dexterity;
+            int actualDexterity = warrior.LevelAttributes.Dexterity;
             Assert.Equal(expectedDexterity, actualDexterity);
         }
         [Fact]
@@ -83,7 +86,7 @@ namespace RPGHeroesTests
             Warrior warrior = new Warrior("testWarrior");
             warrior.LevelUp();
             int expectedIntelligence = 2;
-            int actualIntelligence = warrior.HeroAttribute.Intelligence;
+            int actualIntelligence = warrior.LevelAttributes.Intelligence;
             Assert.Equal(expectedIntelligence, actualIntelligence);
         }
         [Theory]
@@ -124,7 +127,6 @@ namespace RPGHeroesTests
         [Fact]
         public void CheckHero_TotalAttributes_NoArmor()
         {
-
             Warrior warrior = new Warrior("testWarrior");
             HeroAttributes expectedAttributes = new HeroAttributes(5, 2, 1);
             HeroAttributes actualAttributes = warrior.TotalAttributes();
@@ -133,7 +135,6 @@ namespace RPGHeroesTests
         [Fact]
         public void CheckHero_TotalAttributes_OnePieceArmor()
         {
-
             Warrior warrior = new Warrior("testWarrior");
             Armor headArmor = new Armor("headArmor", 1, Slot.Head, ArmorType.Plate, new HeroAttributes(1, 1, 1));
             warrior.EquipArmor(headArmor);
@@ -144,7 +145,6 @@ namespace RPGHeroesTests
         [Fact]
         public void CheckHero_TotalAttributes_TwoPieceArmor()
         {
-
             Warrior warrior = new Warrior("testWarrior");
             Armor headArmor = new Armor("headArmor", 1, Slot.Head, ArmorType.Plate, new HeroAttributes(1, 1, 1));
             Armor bodyArmor = new Armor("bodyArmor", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
@@ -158,7 +158,6 @@ namespace RPGHeroesTests
         [Fact]
         public void CheckHero_TotalAttributes_ReplacedPieceArmor()
         {
-
             Warrior warrior = new Warrior("testWarrior");
             Armor headArmor1 = new Armor("headArmor1", 1, Slot.Head, ArmorType.Plate, new HeroAttributes(1, 1, 1));
             Armor headArmor2 = new Armor("headArmor2", 1, Slot.Head, ArmorType.Plate, new HeroAttributes(3, 3, 3));
@@ -171,17 +170,14 @@ namespace RPGHeroesTests
         [Fact]
         public void CheckHero_Damage_NoWeapon()
         {
-
             Warrior warrior = new Warrior("testWarrior");
             double expectedDamage = 1 * (1 + 5 / 100.0);
             double actualDamage = warrior.Damage();
             Assert.Equal(expectedDamage, actualDamage);
         }
-
         [Fact]
         public void CheckHero_Damage_WithWeapon()
         {
-
             Warrior warrior = new Warrior("testWarrior");
             Weapon weapon = new Weapon("Weapon", 1, WeaponType.Sword, 11);
             warrior.EquipWeapon(weapon);
@@ -192,7 +188,6 @@ namespace RPGHeroesTests
         [Fact]
         public void CheckHero_Damage_ReplacedWeapon()
         {
-
             Warrior warrior = new Warrior("testWarrior");
             Weapon weapon = new Weapon("Weapon", 1, WeaponType.Hammer, 11);
             warrior.EquipWeapon(weapon);
@@ -205,7 +200,6 @@ namespace RPGHeroesTests
         [Fact]
         public void CheckHero_Damage_WeaponAndThreePiecesOfArmor()
         {
-
             Warrior warrior = new Warrior("testWarrior");
             Weapon weapon = new Weapon("Weapon", 1, WeaponType.Axe, 11);
             Armor headArmor = new Armor("headArmor", 1, Slot.Head, ArmorType.Mail, new HeroAttributes(1, 1, 1));
@@ -223,9 +217,7 @@ namespace RPGHeroesTests
         [Fact]
         public void CheckHero_Display()
         {
-
             Warrior warrior = new Warrior("testWarrior");
-
             StringBuilder expectedString = new StringBuilder();
             expectedString.AppendLine("###################### Hero Description ######################");
             expectedString.AppendLine($"Name: testWarrior");

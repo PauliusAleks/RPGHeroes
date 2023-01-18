@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace RPGHeroes.Heroes
 {
+    /// <summary>
+    /// A class for required hero attributes.
+    /// </summary>
     public class HeroAttributes
     {
         public int Strength { get; set; }
         public int Dexterity { get; set; }
         public int Intelligence { get; set; }
-
         public HeroAttributes(int strength, int dexterity, int intelligence)
         {
             Strength = strength;
@@ -19,12 +21,15 @@ namespace RPGHeroes.Heroes
             Intelligence = intelligence;
         }
 
-        public void increaseHeroAttributes(HeroAttributes heroAttribute) //Increases heroe's atributes with given parameters in the method.
+        /// <summary>
+        /// Increases heroe's atributes with the given parameter.
+        /// </summary>
+        /// <param name="LevelAttributes"></param>
+        public void increaseHeroAttributes(HeroAttributes LevelAttributes)
         {
-            Strength += heroAttribute.Strength;
-            Dexterity += heroAttribute.Dexterity;
-            Intelligence += heroAttribute.Intelligence;
+            Strength += LevelAttributes.Strength;
+            Dexterity += LevelAttributes.Dexterity;
+            Intelligence += LevelAttributes.Intelligence;
         }
-
     }
 }

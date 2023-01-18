@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace RPGHeroes.listOfHeroes
 {
-    
+    /// <summary>
+    /// Available hero classes 
+    /// </summary>
     public enum HeroClass
     {
         Mage,
