@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using System.Collections;
 using RPGHeroes.listOfHeroes;
 using RPGHeroes.Items;
+using System.Diagnostics.CodeAnalysis;
 
 namespace RPGHeroes.Heroes
 {
+    [ExcludeFromCodeCoverage]
     public abstract class Hero
     {
         public HeroClass HeroClass { get; set; }
@@ -41,6 +43,6 @@ namespace RPGHeroes.Heroes
 
         public abstract double Damage();
 
-        public abstract void Display();
+        public abstract string Display();
     }
 }

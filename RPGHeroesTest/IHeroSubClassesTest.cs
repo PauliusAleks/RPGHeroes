@@ -2,6 +2,7 @@
 using RPGHeroes.Heroes;
 using RPGHeroes.Items;
 using RPGHeroes.listOfHeroes;
+using System.Text;
 
 namespace RPGHeroesTests
 {
@@ -35,7 +36,24 @@ namespace RPGHeroesTests
         
         public void CHeckIfArmorCanBeEquiped();
 
-
+        public void CheckHero_TotalAttributes_NoArmor()
+        ;
+        public void CheckHero_TotalAttributes_OnePieceArmor()
+        ;
+        public void CheckHero_TotalAttributes_TwoPieceArmor()
+        ;
+        public void CheckHero_TotalAttributes_ReplacedPieceArmor()
+        ;
+        public void CheckHero_Damage_NoWeapon()
+        ;
+        public void CheckHero_Damage_WithWeapon()
+        ;
+        public void CheckHero_Damage_ReplacedWeapon()
+        ;
+        public void CheckHero_Damage_WeaponAndThreePiecesOfArmor()
+        ;
+        public void CheckHero_Display()
+        ;
 
 
     }

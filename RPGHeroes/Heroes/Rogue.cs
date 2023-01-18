@@ -50,11 +50,10 @@ namespace RPGHeroes.listOfHeroes
             {
                 Equipment.Remove(armor.Slot);
                 Equipment.Add(armor.Slot, armor);
-               // HeroAttribute.increaseHeroAttributes(armor.ArmorAttribute);
             }
             else
             {
-                throw new InvalidWeaponException("Your Hero cannot wear this Armor!");
+                throw new InvalidArmorException("Your Hero cannot wear this Armor!");
 
             }
         }
@@ -80,20 +79,21 @@ namespace RPGHeroes.listOfHeroes
             Weapon weapon = (Weapon)Equipment[Slot.Weapon];
             int weaponDamage = 0;
             int rogueDamagingAttribute = 0;
-            double totalDamage = 0;
+            double totalDamage = 0.0;
             if(weapon != null)
             {
                 weaponDamage = weapon.WeaponDamage;
-                rogueDamagingAttribute = TotalAttributes().Dexterity;
+                
             } else
             {
                 weaponDamage = 1;
             }
-            totalDamage = weaponDamage * (1 + rogueDamagingAttribute / 100);
+            rogueDamagingAttribute = TotalAttributes().Dexterity;
+            totalDamage = weaponDamage * (1 + rogueDamagingAttribute / 100.0);
             return totalDamage;
         }
 
-        public override void Display()
+        public override string Display()
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("###################### Hero Description ######################");
@@ -104,7 +104,8 @@ namespace RPGHeroes.listOfHeroes
             stringBuilder.AppendLine($"Total Dexterity: {TotalAttributes().Dexterity}");
             stringBuilder.AppendLine($"Total Intelligence: {TotalAttributes().Intelligence}");
             stringBuilder.AppendLine($"Damage: {Damage()}");
-            Console.WriteLine(stringBuilder.ToString());
+            return stringBuilder.ToString();
+            //Console.WriteLine(stringBuilder.ToString());
         }
 
     }

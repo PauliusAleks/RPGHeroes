@@ -54,7 +54,7 @@ namespace RPGHeroes.listOfHeroes
             }
             else
             {
-                throw new InvalidWeaponException("Your Hero cannot wear this Armor!");
+                throw new InvalidArmorException("Your Hero cannot wear this Armor!");
 
             }
 
@@ -80,7 +80,7 @@ namespace RPGHeroes.listOfHeroes
             Weapon weapon = (Weapon)Equipment[Slot.Weapon];
             int weaponDamage = 0;
             int rangerDamagingAttribute = 0;
-            double totalDamage = 0;
+            double totalDamage = 0.0;
             if (weapon != null)
             {
                 weaponDamage = weapon.WeaponDamage;
@@ -90,11 +90,11 @@ namespace RPGHeroes.listOfHeroes
                 weaponDamage = 1;
             }
             rangerDamagingAttribute = TotalAttributes().Dexterity;
-            totalDamage = weaponDamage * (1 + rangerDamagingAttribute / 100);
+            totalDamage = weaponDamage * (1 + rangerDamagingAttribute / 100.0);
             return totalDamage;
             
         }
-        public override void Display()
+        public override string Display()
         {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.AppendLine("###################### Hero Description ######################");
@@ -105,7 +105,8 @@ namespace RPGHeroes.listOfHeroes
             stringBuilder.AppendLine($"Total Dexterity: {TotalAttributes().Dexterity}");
             stringBuilder.AppendLine($"Total Intelligence: {TotalAttributes().Intelligence}");
             stringBuilder.AppendLine($"Damage: {Damage()}");
-            Console.WriteLine(stringBuilder.ToString());
+            return stringBuilder.ToString();
+            //Console.WriteLine(stringBuilder.ToString());
         }
 
     }

@@ -3,6 +3,7 @@ using RPGHeroes.Heroes;
 using RPGHeroes.Items;
 using RPGHeroes.listOfHeroes;
 using System;
+using System.Text;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace RPGHeroesTests
@@ -109,7 +110,7 @@ namespace RPGHeroesTests
         {
             Warrior warrior = new Warrior("testWarrior");
             Armor armor = new Armor("Armor", requiredLevel, Slot.Body, armorType, new HeroAttributes(1, 1, 1));
-            Assert.Throws<InvalidWeaponException>(() => warrior.EquipArmor(armor));
+            Assert.Throws<InvalidArmorException>(() => warrior.EquipArmor(armor));
         }
         [Fact]
         public void CHeckIfArmorCanBeEquiped()
@@ -119,6 +120,122 @@ namespace RPGHeroesTests
             List<ArmorType> ExpectedValidArmorTypes = new List<ArmorType>() { ArmorType.Mail, ArmorType.Plate };
             List<ArmorType> ActualValidArmorTypes = warrior.ValidArmorTypes;
             Assert.Equal(ExpectedValidArmorTypes, ActualValidArmorTypes);
+        }
+        [Fact]
+        public void CheckHero_TotalAttributes_NoArmor()
+        {
+
+            Warrior warrior = new Warrior("testWarrior");
+            HeroAttributes expectedAttributes = new HeroAttributes(5, 2, 1);
+            HeroAttributes actualAttributes = warrior.TotalAttributes();
+            Assert.Equal(expectedAttributes.ToString(), actualAttributes.ToString());
+        }
+        [Fact]
+        public void CheckHero_TotalAttributes_OnePieceArmor()
+        {
+
+            Warrior warrior = new Warrior("testWarrior");
+            Armor headArmor = new Armor("headArmor", 1, Slot.Head, ArmorType.Plate, new HeroAttributes(1, 1, 1));
+            warrior.EquipArmor(headArmor);
+            HeroAttributes expectedAttributes = new HeroAttributes(6, 3, 2);
+            HeroAttributes actualAttributes = warrior.TotalAttributes();
+            Assert.Equal(expectedAttributes.ToString(), actualAttributes.ToString());
+        }
+        [Fact]
+        public void CheckHero_TotalAttributes_TwoPieceArmor()
+        {
+
+            Warrior warrior = new Warrior("testWarrior");
+            Armor headArmor = new Armor("headArmor", 1, Slot.Head, ArmorType.Plate, new HeroAttributes(1, 1, 1));
+            Armor bodyArmor = new Armor("bodyArmor", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(1, 1, 1));
+            warrior.EquipArmor(headArmor);
+            warrior.EquipArmor(bodyArmor);
+            HeroAttributes expectedAttributes = new HeroAttributes(7, 4, 3);
+            HeroAttributes actualAttributes = warrior.TotalAttributes();
+            Assert.Equal(expectedAttributes.ToString(), actualAttributes.ToString());
+        }
+
+        [Fact]
+        public void CheckHero_TotalAttributes_ReplacedPieceArmor()
+        {
+
+            Warrior warrior = new Warrior("testWarrior");
+            Armor headArmor1 = new Armor("headArmor1", 1, Slot.Head, ArmorType.Plate, new HeroAttributes(1, 1, 1));
+            Armor headArmor2 = new Armor("headArmor2", 1, Slot.Head, ArmorType.Plate, new HeroAttributes(3, 3, 3));
+            warrior.EquipArmor(headArmor1);
+            warrior.EquipArmor(headArmor2);
+            HeroAttributes expectedAttributes = new HeroAttributes(9, 6, 5);
+            HeroAttributes actualAttributes = warrior.TotalAttributes();
+            Assert.Equal(expectedAttributes.ToString(), actualAttributes.ToString());
+        }
+        [Fact]
+        public void CheckHero_Damage_NoWeapon()
+        {
+
+            Warrior warrior = new Warrior("testWarrior");
+            double expectedDamage = 1 * (1 + 5 / 100.0);
+            double actualDamage = warrior.Damage();
+            Assert.Equal(expectedDamage, actualDamage);
+        }
+
+        [Fact]
+        public void CheckHero_Damage_WithWeapon()
+        {
+
+            Warrior warrior = new Warrior("testWarrior");
+            Weapon weapon = new Weapon("Weapon", 1, WeaponType.Sword, 11);
+            warrior.EquipWeapon(weapon);
+            double expectedDamage = 11 * (1 + 5 / 100.0);
+            double actualDamage = warrior.Damage();
+            Assert.Equal(expectedDamage, actualDamage);
+        }
+        [Fact]
+        public void CheckHero_Damage_ReplacedWeapon()
+        {
+
+            Warrior warrior = new Warrior("testWarrior");
+            Weapon weapon = new Weapon("Weapon", 1, WeaponType.Hammer, 11);
+            warrior.EquipWeapon(weapon);
+            Weapon weapon1 = new Weapon("Weapon1", 1, WeaponType.Axe, 15);
+            warrior.EquipWeapon(weapon1);
+            double expectedDamage = 15 * (1 + 5 / 100.0);
+            double actualDamage = warrior.Damage();
+            Assert.Equal(expectedDamage, actualDamage);
+        }
+        [Fact]
+        public void CheckHero_Damage_WeaponAndThreePiecesOfArmor()
+        {
+
+            Warrior warrior = new Warrior("testWarrior");
+            Weapon weapon = new Weapon("Weapon", 1, WeaponType.Axe, 11);
+            Armor headArmor = new Armor("headArmor", 1, Slot.Head, ArmorType.Mail, new HeroAttributes(1, 1, 1));
+            Armor bodyArmor = new Armor("bodyArmor", 1, Slot.Body, ArmorType.Plate, new HeroAttributes(2, 2, 2));
+            Armor legsArmor = new Armor("bodyArmor", 1, Slot.Legs, ArmorType.Plate, new HeroAttributes(3, 3, 3));
+            warrior.EquipWeapon(weapon);
+            warrior.EquipArmor(headArmor);
+            warrior.EquipArmor(bodyArmor);
+            warrior.EquipArmor(legsArmor);
+            warrior.EquipWeapon(weapon);
+            double expectedDamage = 11 * (1 + 11 / 100.0);
+            double actualDamage = warrior.Damage();
+            Assert.Equal(expectedDamage, actualDamage);
+        }
+        [Fact]
+        public void CheckHero_Display()
+        {
+
+            Warrior warrior = new Warrior("testWarrior");
+
+            StringBuilder expectedString = new StringBuilder();
+            expectedString.AppendLine("###################### Hero Description ######################");
+            expectedString.AppendLine($"Name: testWarrior");
+            expectedString.AppendLine($"Class: {HeroClass.Warrior}");
+            expectedString.AppendLine($"Level: {1}");
+            expectedString.AppendLine($"Total Strength: {5}");
+            expectedString.AppendLine($"Total Dexterity: {2}");
+            expectedString.AppendLine($"Total Intelligence: {1}");
+            expectedString.AppendLine($"Damage: {1 * (1 + 5 / 100.0)}");
+            Assert.Equal(expectedString.ToString(), warrior.Display());
         }
     }
 }
