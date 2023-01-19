@@ -29,9 +29,9 @@ namespace RPGHeroes.Heroes
         };
         public List<WeaponType> ValidWeaponTypes { get; set; }
         public List<ArmorType> ValidArmorTypes { get; set; }
-        public Hero(String name)
+        public Hero(String? name)
         {
-            Name = name;
+            Name = name ?? "No Name";
             Level = 1;
         }
         public abstract void LevelUp();
